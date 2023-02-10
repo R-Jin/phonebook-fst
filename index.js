@@ -25,6 +25,8 @@ app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
 app.use(morgan(':method :url :response-time :post'))
+// app.use(unknownEndpoint)
+app.use(errorHandler)
 
 
 let persons = [
@@ -50,7 +52,7 @@ let persons = [
   }
 ]
 
-app.get("/info", (req, res) => {
+app.get("/info", (req, res, next) => {
   let date = new Date()
   Contact.countDocuments((err, count) => {
     res.send(`<p>Phonebook has info for ${count} people</p><p>${date}</p>`)
@@ -138,5 +140,3 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 })
 
-app.use(unknownEndpoint)
-app.use(errorHandler)
